@@ -22,6 +22,9 @@ public class Book implements Serializable {
 	private String condition; 	 // 신제품 or 구제품 or 리퍼브제품
 	private String filename;     // 이미지 파일명
 	
+	public Book() {
+	}
+	
 	public Book(String bookId, String name, int unitPrice) {
 		super();
 		this.bookId = bookId;

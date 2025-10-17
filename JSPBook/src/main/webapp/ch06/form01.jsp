@@ -1,0 +1,43 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Form Processing</title>
+</head>
+<body>
+	<!-- form 태그와 input 태그로 간단한 외원 가입 양식 만들기 -->
+	<h3>회원가입</h3>
+	<form action="#" name="member" method="post">
+		<p>
+			아이디: <input type="text" name="id">
+			<button type="button">아이디 중복검사</button>
+		</p>
+		<p>
+			비밀번호: <input type="password" name="pw">
+		</p>
+		<p>
+			이름: <input type="text" name="name">
+		</p>
+		<p>
+			연락처: <input type="text" name="num1" style="width: 50px;"> - 
+			<input type="text" name="num2" style="width: 50px;"> - 
+			<input type="text" name="num3" style="width: 50px;">
+		</p>
+		<p>
+			성별: <input type="radio" name="sex" checked="checked">남성 
+			<input type="radio" name="sex">여성
+		</p>
+		<p>
+			취미: 독서<input type="checkbox" checked="checked"> 
+			운동<input type="checkbox"> 
+			영화<input type="checkbox">
+		</p>
+		<p>
+			<button type="submit">가입하기</button>
+			<button type="reset">다시쓰기</button>
+		</p>
+	</form>
+</body>
+</html>

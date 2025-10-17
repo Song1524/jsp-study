@@ -1,3 +1,4 @@
+<%@page import="dao.BookRepository"%>
 <%@page import="dto.Book"%>
 <%@page import="java.util.List"%>
 <%@page import="java.util.ArrayList"%>
@@ -23,7 +24,9 @@
     </jsp:include>
 
 		<%
-			List<Book> listOfBooks = bookDAO.getAllBooks();
+			// List<Book> listOfBooks = bookDAO.getAllBooks();
+			BookRepository dao = BookRepository.getInstance();
+			List<Book> listOfBooks = dao.getAllBooks();		
 		%>
 
     <div class="row align-items-md-stretch text-center">
