@@ -1,9 +1,11 @@
+<%@page import="dao.BookRepository"%>
 <%@page import="dto.Book"%>
 <%@page import="java.util.List"%>
 <%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<jsp:useBean id="bookDAO" class="dao.BookRepository" scope="session" />
+<%@ page errorPage="exceptionNoBookId.jsp" %>
+<%-- <jsp:useBean id="bookDAO" class="dao.BookRepository" scope="session" /> --%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -26,16 +28,21 @@
 			// Quiz
 			// 도서 목록 페이지로부터 전달되는 도서 아이디를 가져오도록 작성
 			String id = request.getParameter("id");
-			Book book = bookDAO.getBookById(id);
-			
 			// BookRepository 클래스로 bookDAO라는 이름의 자바빈을 생성하고
 			// 도서 아이디를 이용하여 도서 정보 가져오기
+			// Book book = bookDAO.getBookById(id);
+			
+			// BookRepository 공유 객체로 변경
+			BookRepository dao = BookRepository.getInstance();
+			Book book = dao.getBookById(id);
 		%>
 
     <div class="row align-items-md-stretch">
-    
     	<div class="col-md-5">
-    		<img alt="도서 이미지" src="./resources/images/<%= book.getFilename() %>" style="width: 70%;">
+    		<!-- 웹 앱 내부 접근 시 -->
+    		<%-- <img alt="도서이미지" src="./resources/images/<%= book.getFilename() %>" style="width: 70%;"> --%>
+    		<!-- 외부 폴더 접근 시 -->
+    		<img alt="도서이미지" src="<%= request.getContextPath() %>/images/<%= book.getFilename() %>" style="width: 70%;">
     	</div>
     
       <div class="col-md-6">
