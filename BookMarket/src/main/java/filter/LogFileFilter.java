@@ -1,6 +1,8 @@
 package filter;
 
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -12,28 +14,40 @@ import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
 
-// 필터 처리로 콘솔에 로그 기록하기 
-public class LogFilter implements Filter{
-
+// 필터 처리로 콘솔에 로그 기록 파일 만들기
+public class LogFileFilter implements Filter{
+	PrintWriter writer;
+	
    @Override
    public void init(FilterConfig filterConfig) throws ServletException {
-      System.out.println("BookMarket Filter 초기화...");
+	   String filename = filterConfig.getInitParameter("filename");
+	   
+	   if (filename == null) {
+		   throw new ServletException("로그 파일 이름을 찾을 수 없습니다.");
+	   }
+	   
+	   try {
+		   writer = new PrintWriter(new FileWriter(filename, true));
+	   } catch (Exception e) {
+		   throw new ServletException("로그 파일을 열 수 없습니다.");
+	   }
+	   
    }
    
    @Override
    public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain)
          throws IOException, ServletException {
-      System.out.println("접속한 클라이언트 IP: " + request.getRemoteAddr());
+	  writer.println("접속한 클라이언트 IP: " + request.getRemoteAddr());
       long start = System.currentTimeMillis();
-      System.out.println("접근한 URL 경로: " + getURLPath(request));
-      System.out.println("요청 처리 시작 시각: " + getCurrentTime());
+      writer.println("접근한 URL 경로: " + getURLPath(request));
+      writer.println("요청 처리 시작 시각: " + getCurrentTime());
       
       filterChain.doFilter(request, response);
       
       long end = System.currentTimeMillis();
-      System.out.println("요청 처리 종료 시각:" + getCurrentTime());
-      System.out.println("요청 처리 소요 시각:" +(end - start) + "ms");
-      System.out.println("=============================================================");
+      writer.println("요청 처리 종료 시각:" + getCurrentTime());
+      writer.println("요청 처리 소요 시각:" +(end - start) + "ms");
+      writer.println("=============================================================");
    }
    
    private String getCurrentTime() {
@@ -55,7 +69,7 @@ public class LogFilter implements Filter{
 
    @Override
    public void destroy() {
-      System.out.println("BookMarket Filter 해제...");
+	   writer.println("BookMarket Filter 해제...");
    }
 
 }
