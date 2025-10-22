@@ -7,9 +7,7 @@
 <title>Filter</title>
 </head>
 <body>
-	<p>입력된 name 값: <%= request.getParameter("name") %></p>
-	
-	<!-- EL(표현 언어) 사용 시 -->
-	<p>입력된 name 값: ${param.name}</p>
+	<p>입력된 id 값: <%= request.getParameter("id") %></p>
+	<p>입력된 pw 값: <%= request.getParameter("passwd") %></p>
 </body>
 </html>
