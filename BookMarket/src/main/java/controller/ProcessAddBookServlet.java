@@ -56,26 +56,26 @@ public class ProcessAddBookServlet extends HttpServlet {
         String fileName = null;
         
         if (filePart != null && filePart.getSize() > 0) {
-        	// 파일 이름 가져오기
-        	fileName = filePart.getSubmittedFileName();
-        	
-        	// 업로드 폴더 경로(2가지 경로 테스트)
-        	// 1) webapp 내부 경로 사용
-			/* String uploadPath = getServletContext().getRealPath("/resources/images"); */
-        	// 장점: 내부 경로라서 리소스에 바로 접근 가능
-        	// 단점: 서버 재배포 시 초기화됨(즉, 업로드 파일 사라짐)
-        	
-        	// 2) 외부 업로드 폴더 사용
-        	String uploadPath = "D:/upload";
-        	
-        	File uploadDir = new File(uploadPath);
-        	if (!uploadDir.exists()) {
-        		uploadDir.mkdirs();
-        	}
-        	
-        	filePart.write(uploadPath + File.separator + fileName);
-        	// JSP 페이지에서 /images/파일명으로 바로 접근하려면 톰켓 설정을 추가해야 함
-        	// server.xml 또는 프로젝트별 context.xml
+        		// 파일 이름 가져오기
+        		fileName = filePart.getSubmittedFileName();
+        		
+        		// 업로드 폴더 경로(2가지 경로 테스트)
+        		// 1) webapp 내부 경로 사용
+//        		String uploadPath = getServletContext().getRealPath("/resources/images");
+        		// 장점: 내부 경로라서 리소스에 바로 접근 가능
+        		// 단점: 서버 재배포 시 초기화됨(즉, 업로드 파일 사라짐)
+        		
+        		// 2) 외부 업로드 폴더 사용
+        		String uploadPath = "D:/upload";
+        		// JSP 페이지에서 /images/파일명으로 바로 접근하려면 톰캣 설정(외부 폴더 매핑)을 추가해야 함
+        		// server.xml 또는 프로젝트별 context.xml
+        		
+        		File uploadDir = new File(uploadPath);
+        		if (!uploadDir.exists()) {
+        			uploadDir.mkdirs();
+        		}
+        		
+        		filePart.write(uploadPath + File.separator + fileName);
         }
         
         // ==== Book 객체 생성 및 저장 ====
@@ -95,10 +95,16 @@ public class ProcessAddBookServlet extends HttpServlet {
         
         BookRepository dao = BookRepository.getInstance();
         dao.addBook(newBook);
-        
-        // 등록 후 도서 목록 페이지로 리다이렉트
-        response.sendRedirect("books.jsp");		
 		
+		// 등록 후 도서 목록 페이지로 리다이렉트
+        response.sendRedirect("books.jsp");
+        
+        
+        
+        
+        
+        
+        
 	}
 
 }
